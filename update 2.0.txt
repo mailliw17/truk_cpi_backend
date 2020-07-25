@@ -1,0 +1,27 @@
+Project CPI revisi DL 30 July 20
+
+Security IN
+Sampling Shelter
+Truck Scale IN
+Proses Bongkar / Silo Dryer
+Truck Scale OUT
+Security OUT
+
+What you have done CPI :
+- OPTIMASI DATABASE dan sistem
+- ganti icon semua
+- super admin udh bisa login
+- bisa login semua role
+-manajemen menu utk semua role sudah oke
+- modul ganti password semua role sudah oke
+- modul regis utk semua role oke
+- info nama dan lokasi di operator
+- bg login gaada gambarnya
+-perbaikan pagination template tabel
+- template tabel utk semua menu + urutan CP sdh sesuai 
+- tambah lokasi pabrik utk pantauan cp (2 lokasi)
+- perbaiki alert jadi ada semua button
+- view dari SA dan A sudah sesuai dgn DB
+- searching blm ada utk lokasi pabrik di laporan
+-kelola akun sudah bagus view nya
+- plat nomor error view sudah bagus
