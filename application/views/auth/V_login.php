@@ -15,7 +15,24 @@
                                     <h1 class="h4 text-gray-900 mb-4">Selamat Datang Di Halaman Login!</h1>
 
                                     <!-- INI FLASHMESSAGE -->
-                                    <?= $this->session->flashdata('message');  ?>
+                                    <?php if ($this->session->flashdata('gagal_login')) : ?>
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            Username / Password salah !
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if ($this->session->flashdata('message')) : ?>
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            Password Berhasil Diganti <br>
+                                            Silahkan Login Ulang !
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
 
                                     <hr>
                                     <h1>PT. Charoen Pokphand Indonesia</h1>
@@ -24,13 +41,13 @@
                                 <form class="user" action="<?= base_url('C_auth/index'); ?>" method="POST">
 
                                     <div class="form-group">
-                                        <input type="text" name="email" class="form-control form-control-user" id="email" autocomplete="off" placeholder="Masukan alamat email" value="<?= set_value('email'); ?>">
-                                        <?= form_error('email', ' <small class="text-danger pl-3">', '</small>');  ?>
+                                        <input type="text" name="username" class="form-control form-control-user" id="username" autocomplete="off" placeholder="Masukan username..." value="<?= set_value('username'); ?>">
+                                        <?= form_error('username', ' <small class="text-danger pl-3">', '</small>');  ?>
                                     </div>
 
 
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" id="password" autocomplete="off" placeholder="Masukan password" name="password">
+                                        <input type="password" class="form-control form-control-user" id="password" autocomplete="off" placeholder="Masukan password..." name="password">
                                         <?= form_error('password', ' <small class="text-danger pl-3">', '</small>');  ?>
                                     </div>
 

@@ -19,7 +19,10 @@ class C_platunik extends CI_Controller
         //kalau gagal
         if ($this->form_validation->run() == false) {
             $judul['page_title'] = 'Data Truk';
+            $this->load->view('templates/header', $judul);
+            $this->load->view('templates/sidebar'); 
             $this->load->view('V_platunik');
+            $this->load->view('templates/footer');
         } else {
             //kalau berhasil
             $data = [

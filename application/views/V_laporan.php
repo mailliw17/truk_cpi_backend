@@ -85,13 +85,13 @@
                     <th style="text-align:center; vertical-align:middle;">No</th>
                     <th style="text-align:center; vertical-align:middle;">Plat nomor</th>
                     <th style="text-align:center; vertical-align:middle;">Jenis Rute</th>
-                    <th style="text-align:center; vertical-align:middle;">Pelabuhan / Gudang KM.13</th>
-                    <th style="text-align:center; vertical-align:middle;">Parkiran Pabrik</th>
+                    <th style="text-align:center; vertical-align:middle;">Lokasi Pabrik</th>
+                    <th style="text-align:center; vertical-align:middle;">Security IN</th>
                     <th style="text-align:center; vertical-align:middle;">Sampling Shelter</th>
-                    <th style="text-align:center; vertical-align:middle;">Truck Scale 1</th>
-                    <th style="text-align:center; vertical-align:middle;">Proses Bongkar</th>
-                    <th style="text-align:center; vertical-align:middle;">Truck Scale 2</th>
-                    <th style="text-align:center; vertical-align:middle;">SELESAI</th>
+                    <th style="text-align:center; vertical-align:middle;">Truck Scale IN</th>
+                    <th style="text-align:center; vertical-align:middle;">Proses Bongkar / Silo Dryer</th>
+                    <th style="text-align:center; vertical-align:middle;">Truck Scale OUT</th>
+                    <th style="text-align:center; vertical-align:middle;">Security OUT</th>
                 </thead>
 
                 <?php
@@ -103,6 +103,7 @@
                             <td><?= $no ?></td>
                             <td><?php echo $t['plat_nomor']; ?></td>
                             <td><?php echo $t['jenis_rute']; ?></td>
+                            <td><?php echo $t['lokasi_pabrik']; ?></td>
                             <td style="text-align:center">
                                 <?php
                                 if ($t['cp1'] == '0000-00-00 00:00:00') {
@@ -154,15 +155,6 @@
                                     echo "-";
                                 } else {
                                     echo  $t['cp6'];
-                                }
-                                ?>
-                            </td>
-                            <td style="text-align:center">
-                                <?php
-                                if ($t['cp_selesai'] == '0000-00-00 00:00:00') {
-                                    echo "-";
-                                } else {
-                                    echo  $t['cp_selesai'];
                                 }
                                 ?>
                             </td>

@@ -14,14 +14,14 @@
                         <form class="user" method="POST" action="<?= base_url('C_auth/registersuperadmin'); ?>">
                             <div class="form-group">
                                 <div>
-                                    <input type="text" class="form-control form-control-user" id="nama" autocomplete="off" placeholder="Masukan nama lengkap" name="nama" value="<?= set_value('nama'); ?>">
+                                    <input type="text" class="form-control form-control-user" id="nama" autocomplete="off" placeholder="Masukan nama lengkap..." name="nama" value="<?= set_value('nama'); ?>">
                                     <?= form_error('nama', ' <small class="text-danger pl-3">', '</small>');  ?>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user" name="email" id="email" autocomplete="off" placeholder="Masukan email" value="<?= set_value('email'); ?>">
-                                <?= form_error('email', ' <small class="text-danger pl-3">', '</small>');  ?>
+                                <input type="text" class="form-control form-control-user" name="username" id="username" autocomplete="off" placeholder="Masukan username..." value="<?= set_value('username'); ?>">
+                                <?= form_error('username', ' <small class="text-danger pl-3">', '</small>');  ?>
                             </div>
 
                             <div class="form-group row">
@@ -33,19 +33,19 @@
                                     <input type="password" class="form-control form-control-user" id="password2" placeholder="Ulangi password" name="password2">
                                 </div>
                             </div>
-
+                            <hr>
                             <button type="submit" class="btn btn-primary btn-user btn-block">
                                 Registrasi Akun
                             </button>
                             <hr>
                         </form>
-                        <hr>
-                        <div class="text-center">
+
+                        <!-- <div class="text-center">
                             <a class="small" href="<?= base_url() ?>C_auth/index">Sudah punya akun? Login saja!</a>
-                        </div>
-                        <div class="float-right">
+                        </div> -->
+                        <!-- <div class="float-right">
                             <a href="<?= base_url('C_truk/data_truk') ?>" class="btn btn-primary">Kembali</a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

@@ -20,13 +20,13 @@
                 <th>No</th>
                 <th>Plat nomor</th>
                 <th>Jenis Rute</th>
-                <th>Pelabuhan / Gudang KM.08&13</th>
-                <th>Parkiran Pabrik</th>
+                <th>Lokasi Pabrik</th>
+                <th>Security IN</th>
                 <th>Sampling Shelter</th>
                 <th>Truck Scale IN</th>
                 <th>Proses Bongkar / Silo Dryer</th>
                 <th>Truck Scale OUT</th>
-                <th>SELESAI</th>
+                <th>Security OUT</th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +39,7 @@
                     <td><?= $no++ ?></td>
                     <td><?php echo $t['plat_nomor']; ?></td>
                     <td><?php echo $t['jenis_rute']; ?></td>
+                    <td><?php echo $t['lokasi_pabrik']; ?></td>
                     <td style="text-align:center">
                         <?php
                         if ($t['cp1'] == '0000-00-00 00:00:00') {
@@ -90,15 +91,6 @@
                             echo "-";
                         } else {
                             echo  $t['cp6'];
-                        }
-                        ?>
-                    </td>
-                    <td style="text-align:center">
-                        <?php
-                        if ($t['cp_selesai'] == '0000-00-00 00:00:00') {
-                            echo "-";
-                        } else {
-                            echo  $t['cp_selesai'];
                         }
                         ?>
                     </td>

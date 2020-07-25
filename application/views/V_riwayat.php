@@ -9,7 +9,7 @@
                 <i class="fas fa-truck"></i>
                 <strong>DATA PERJALANAN TRUK</strong>
                 <br>
-                <p> <i style="color: red">*Hanya menampilkan 30 data perjalanan terakhir</i> </p>
+                <p> <i style="color: red">*Menampilkan semua data perjalanan truk</i> </p>
             </div>
             <br>
 
@@ -20,13 +20,13 @@
                             <tr>
                                 <th style="text-align:center; vertical-align:middle;">Nomor</th>
                                 <th style="text-align:center; vertical-align:middle;">Jenis Rute</th>
-                                <th style="text-align:center; vertical-align:middle;">Pelabuhan / Gudang KM.13</th>
-                                <th style="text-align:center; vertical-align:middle;">Parkiran Pabrik</th>
-                                <th style="text-align:center; vertical-align:middle;">Sampling Center</th>
-                                <th style="text-align:center; vertical-align:middle;">Truck Scale 1</th>
-                                <th style="text-align:center; vertical-align:middle;">Proses Bongkar</th>
-                                <th style="text-align:center; vertical-align:middle;">Truck Scale 2</th>
-                                <th style="text-align:center; vertical-align:middle;">SELESAI</th>
+                                <th style="text-align:center; vertical-align:middle;">Lokasi Pabrik</th>
+                                <th style="text-align:center; vertical-align:middle;">Security IN</th>
+                                <th style="text-align:center; vertical-align:middle;">Sampling Shelter</th>
+                                <th style="text-align:center; vertical-align:middle;">Truck Scale IN</th>
+                                <th style="text-align:center; vertical-align:middle;">Proses bongkar / Silo Dryer</th>
+                                <th style="text-align:center; vertical-align:middle;">Truck Scale OUT</th>
+                                <th style="text-align:center; vertical-align:middle;">Security OUT</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,6 +38,7 @@
                                 <tr>
                                     <td> <?php echo $no++; ?> </td>
                                     <td><?php echo $t->jenis_rute; ?></td>
+                                    <td><?php echo $t->lokasi_pabrik; ?></td>
                                     <td style="text-align:center">
                                         <?php
                                         if ($t->cp1 == '0000-00-00 00:00:00') {
@@ -92,7 +93,7 @@
                                         }
                                         ?>
                                     </td>
-                                    <td style="text-align:center">
+                                    <!-- <td style="text-align:center">
                                         <?php
                                         if ($t->cp_selesai == '0000-00-00 00:00:00') {
                                             echo "-";
@@ -100,7 +101,7 @@
                                             echo $t->cp_selesai;
                                         }
                                         ?>
-                                    </td>
+                                    </td> -->
 
                                 </tr>
                             <?php endforeach; ?>
@@ -108,7 +109,7 @@
                     </table>
                 </div>
                 <!-- TOMBOL KEMBALI -->
-                <div class="float-right">
+                <div class="float-right" style="margin-top: 20px;">
                     <a href="<?= base_url('C_truk/tracking') ?>" class="btn btn-primary">Kembali</a>
                 </div>
             </div>

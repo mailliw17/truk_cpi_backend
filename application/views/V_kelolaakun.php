@@ -29,9 +29,11 @@
                             <tr>
                                 <th>Nomor</th>
                                 <th>Nama</th>
-                                <th>Email</th>
-                                <th>Jenis akun</th>
-                                <th colspan="2">Aksi</th>
+                                <th>Username</th>
+                                <th>Lokasi Pabrik</th>
+                                <th>Lokasi Checkpoint</th>
+                                <th>Aksi</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,20 +42,34 @@
                             foreach ($user as $us) : ?>
 
                                 <tr>
-                                    <td> <?php echo $no++ ?> </td>
+                                    <td> <?php echo $no ?> </td>
                                     <td> <?php echo $us->nama ?> </td>
-                                    <td> <?php echo $us->email ?> </td>
-                                    <td> <?php
-                                            if ($us->role_id == '1') {
-                                                echo 'Super Admin';
-                                            } elseif ($us->role_id == '2') {
-                                                echo 'Admin';
-                                            } elseif ($us->role_id == '3') {
-                                                echo 'Operator Barcode';
-                                            } elseif ($us->role_id == '4') {
-                                                echo 'Operator Truck Scale';
-                                            }
-                                            ?> </td>
+                                    <td> <?php echo $us->username ?> </td>
+                                    <td> <?php echo $us->lokasi_pabrik ?> </td>
+                                    <td> <?php if ($us->lokasi_checkpoint == 'cp1') {
+                                                echo 'Security IN';
+                                            } elseif ($us->lokasi_checkpoint == 'cp2') {
+                                                echo 'Sampling Shelter';
+                                            } elseif ($us->lokasi_checkpoint == 'cp3') {
+                                                echo 'Truck Scale IN';
+                                            } elseif ($us->lokasi_checkpoint == 'cp4') {
+                                                echo 'Proses Bongkar/Silo Dryer';
+                                            } elseif ($us->lokasi_checkpoint == 'cp5') {
+                                                echo 'Truck Scale OUT';
+                                            } elseif ($us->lokasi_checkpoint == 'cp6') {
+                                                echo 'Security OUT';
+                                            };    ?> </td>
+                                    <!-- <td> <?php
+                                                if ($us->role == 'Super Admin') {
+                                                    echo 'Super Admin';
+                                                } elseif ($us->role == 'Admin') {
+                                                    echo 'Admin';
+                                                } elseif ($us->role == 'Barcoding') {
+                                                    echo 'Operator Barcode';
+                                                } elseif ($us->role == 'Inputan') {
+                                                    echo 'Operator Truck Scale';
+                                                }
+                                                ?> </td> -->
 
                                     <td>
                                         <a href="<?php echo base_url('C_auth/update_data_aksi/') . $us->id ?>" class="btn btn-sm btn-warning">
@@ -73,7 +89,8 @@
 
                                 </tr>
 
-                            <?php endforeach; ?>
+                            <?php $no++;
+                            endforeach; ?>
 
                         </tbody>
                     </table>

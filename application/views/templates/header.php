@@ -4,9 +4,12 @@
 <link>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 <title>
     <?php if (!empty($page_title)) echo $page_title; ?>
 </title>
+
+<link href="<?= base_url() ?>assets/img/cpi.png" rel="icon">
 <!-- Tell the browser to be responsive to screen width -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Font Awesome -->
@@ -28,16 +31,17 @@
 <!-- Datepicker -->
 <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap-datepicker3.css">
 
-<link rel="stylesheet" href="<?= base_url() ?>assets/MDB-Free">
+<!-- <link rel="stylesheet" href="<?= base_url() ?>assets/MDB-Free">  -->
 
-
-
-
+<!-- Custom styles for this page -->
+<link href="<?= base_url() ?>assets/css/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+<!-- <link href="<?= base_url() ?>assets/css/sb-admin-2.css" rel="stylesheet"> -->
 
 
 <!-- Google Font: Source Sans Pro -->
 <link href="<?= base_url() ?>assets/googlefont/googlefont.css" rel="stylesheet">
 </link>
+
 
 
 <body class="hold-transition sidebar-mini layout-fixed">

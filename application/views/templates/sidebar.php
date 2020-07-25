@@ -11,8 +11,8 @@
             </div>
             <div class="info">
                 <p style="color: white"> <small>Welcome , </small> &nbsp;<strong><?= $this->session->userdata('nama'); ?></strong> !</p>
-                <p style="color: white"> <small>Anda login sebagai <?php if ($this->session->userdata('role_id') == 1) {
-                                                                        echo 'Super Admin';
+                <p style="color: white"> <small>Anda login sebagai <?php if ($this->session->userdata('role') == 'Super Admin') {
+                                                                        echo '<small>Super Admin</small>';
                                                                     } else {
                                                                         echo 'Admin';
                                                                     }  ?> </small> </p>
@@ -34,7 +34,11 @@
 
                     <ul class="nav nav-treeview">
 
-                        <li <?= $this->uri->segment(2) == 'tracking' || $this->uri->segment(2) == '' ? 'class="nav-link active"' : '' ?>>
+                        <li <?php if (($this->uri->segment(2) == 'detail_truk') || ($this->uri->segment(2) == 'riwayat_truk') || ($this->uri->segment(2) == 'tracking')) {
+                                echo 'class="nav-link active"';
+                            } else {
+                                echo '';
+                            } ?>>
                             <a href=" <?= base_url('C_truk/tracking') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-fw fa-desktop"></i>
                                 <p>
@@ -45,13 +49,40 @@
 
                         <hr class="sidebar-divider">
 
-                        <li <?= $this->uri->segment(2) == 'checkpoint_cp1' ? 'class="nav-link active"' : '' ?>>
-                            <a href="<?= base_url('C_truk/checkpoint_cp1') ?>" class="nav-link">
-                                <i class="nav-icon fas fa-fw fa-search-location"></i>
+                        <!-- KASIH ANIMASI JS -->
+                        <li class="nav-item has-treeview menu-open">
+
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Pantauan Checkpoint
+                                    Pantauan Terkini
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="<?= base_url() ?>C_truk/checkpoint_cp1_km08" class="<?php if (($this->uri->segment(2) == 'checkpoint_cp1_km08') || ($this->uri->segment(2) == 'checkpoint_cp2_km08') || ($this->uri->segment(2) == 'checkpoint_cp3_km08') || ($this->uri->segment(2) == 'checkpoint_cp4_km08') || ($this->uri->segment(2) == 'checkpoint_cp5_km08') || ($this->uri->segment(2) == 'checkpoint_cp6_km08')) {
+                                                                                                        echo 'nav-link active';
+                                                                                                    } else {
+                                                                                                        echo 'nav-link';
+                                                                                                    } ?>" target="">
+                                        <i class="fas fa-dot-circle circle nav-icon"></i>
+                                        <p> <small>Genuk / KM.08</small> </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= base_url() ?>C_truk/checkpoint_cp1_km09" class="<?php if (($this->uri->segment(2) == 'checkpoint_cp1_km09') || ($this->uri->segment(2) == 'checkpoint_cp2_km09') || ($this->uri->segment(2) == 'checkpoint_cp3_km09') || ($this->uri->segment(2) == 'checkpoint_cp4_km09') || ($this->uri->segment(2) == 'checkpoint_cp5_km09') || ($this->uri->segment(2) == 'checkpoint_cp6_km09')) {
+                                                                                                        echo 'nav-link active';
+                                                                                                    } else {
+                                                                                                        echo 'nav-link';
+                                                                                                    } ?>" target="">
+                                        <i class="fas fa-dot-circle circle nav-icon"></i>
+                                        <p> <small>Sayung / KM.09</small> </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <hr class="sidebar-divider">
@@ -79,7 +110,7 @@
                             </a>
                             <ul class="nav nav-treeview">
 
-                                <?php if ($this->session->userdata('role_id') == '1') : ?>
+                                <?php if ($this->session->userdata('role') == 'Super Admin') : ?>
                                     <li class="nav-item">
                                         <a href="<?= base_url() ?>C_auth/registersuperadmin" class="nav-link" target="_blank">
                                             <i class="fas fa-fw fa-plus circle nav-icon"></i>
@@ -88,7 +119,7 @@
                                     </li>
                                 <?php endif; ?>
 
-                                <?php if ($this->session->userdata('role_id') == '1') : ?>
+                                <?php if ($this->session->userdata('role') == 'Super Admin') : ?>
                                     <li class="nav-item">
                                         <a href="<?= base_url() ?>C_auth/registeradmin" class="nav-link" target="_blank">
                                             <i class="fas fa-fw fa-plus circle nav-icon"></i>
@@ -100,18 +131,9 @@
                                 <li class="nav-item">
                                     <a href="<?= base_url() ?>C_auth/registerminiadmin" class="nav-link" target="_blank">
                                         <i class="fas fa-fw fa-plus circle nav-icon"></i>
-                                        <p> <small>Buat akun Operator Barcode baru</small> </p>
+                                        <p> <small>Buat akun Operator baru</small> </p>
                                     </a>
                                 </li>
-
-                                <li class="nav-item">
-                                    <a href="<?= base_url() ?>C_auth/registerminiadmin2" class="nav-link" target="_blank">
-                                        <i class="fas fa-fw fa-plus circle nav-icon"></i>
-                                        <p> <small>Buat akun Operator Truck Scale</small> </p>
-                                    </a>
-                                </li>
-
-
                             </ul>
                         </li>
 
@@ -131,10 +153,10 @@
 
                         <hr class="sidebar-divider">
 
-                        <?php if ($this->session->userdata('role_id') == '2') : ?>
+                        <?php if ($this->session->userdata('role') == 'Admin') : ?>
                             <li <?= $this->uri->segment(2) == 'laporan' ? 'class="nav-link active"' : '' ?>>
                                 <a href="<?= base_url() ?>C_truk/laporan" class="nav-link">
-                                    <i class="nav-icon fas fa-fw fa-file-download"></i>
+                                    <i class="nav-icon fas fa-fw fa-file-invoice"></i>
                                     <p>
                                         Kelola Laporan
                                     </p>
@@ -142,10 +164,10 @@
                             </li>
                         <?php endif; ?>
 
-                        <?php if ($this->session->userdata('role_id') == '1') : ?>
+                        <?php if ($this->session->userdata('role') == 'Super Admin') : ?>
                             <li <?= $this->uri->segment(2) == 'laporan_superadmin' ? 'class="nav-link active"' : '' ?>>
                                 <a href="<?= base_url() ?>C_truk/laporan_superadmin" class="nav-link">
-                                    <i class="nav-icon fas fa-fw fa-trash"></i>
+                                    <i class="nav-icon fas fa-fw fa-file-invoice"></i>
                                     <p>
                                         Kelola Laporan
                                     </p>

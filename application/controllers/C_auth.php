@@ -3,24 +3,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class C_auth extends CI_Controller
 {
-
     //  VALIDASI LOGIN
     public function __construct()
     {
         parent::__construct();
         $this->load->library('form_validation');
+        $this->load->model('M_auth');
+        $this->load->library('session');
+        $this->load->helper('url');
     }
 
     public function index()
     {
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
 
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
 
         //validasi login
         if ($this->form_validation->run() == false) {
             $judul['page_title'] = 'Halaman Login';
-            $this->load->view('templates/auth_header', $judul);
+            $this->load->view('templates/auth_header_login', $judul);
             $this->load->view('auth/V_login');
             $this->load->view('templates/auth_footer');
         } else {
@@ -31,64 +33,59 @@ class C_auth extends CI_Controller
 
     private function _login()
     {
-        $email = $this->input->post('email');
-        $password = $this->input->post('password');
+        $username = htmlspecialchars($this->input->post('username'));
+        $password = htmlspecialchars($this->input->post('password'));
 
-        //query ke database untuk melihat email dan password yang sesuai
-        $user = $this->db->get_where('user', ['email' => $email])->row_array();
+        $cek_user = $this->M_auth->auth_user($username, $password);
+        // $cek_admin = $this->M_auth->auth_admin($username, $password);
+        // $cek_barcoding = $this->M_auth->auth_barcoding($username, $password);
+        // $cek_inputan = $this->M_auth->auth_inputan($username, $password);
 
-        if ($user) {
-            //cek passwordnya bener atau tidak
-            if (password_verify($password, $user['password'])) {
-                //kalau password benar
-
-                //siapkan data dalam session
-                $data = [
-                    'email' => $user['email'],
-                    'nama' => $user['nama'],
-                    'role_id' => $user['role_id']
-                ];
-
-                //simpan ke dalam session 
-                $this->session->set_userdata($data);
-                if ($user['role_id'] == 2) {
-                    //ARAHKAN KE ADMIN DULU
-                    redirect('C_truk/landingpage');
-                } elseif ($user['role_id'] == 3) {
-                    //masuk ke miniadmin
-                    redirect('C_scan');
-                } elseif ($user['role_id'] == 1) {
-                    //untuk super admin role 1
-                    redirect('C_truk/landingpage');
-                } elseif ($user['role_id'] == 4) {
-                    //untuk miniadmin2 atau operator truck scale
-                    redirect('C_scan');
-                }
-            } else {
-                //kalau password salah
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                Password anda salah!
-                </div>');
-                redirect('C_auth/index');
+        if ($cek_user->num_rows() != 0) {
+            $data = $cek_user->row_array();
+            $nama = $data['nama'];
+            $username = $data['username'];
+            $lokasi_pabrik = $data['lokasi_pabrik'];
+            $lokasi_checkpoint = $data['lokasi_checkpoint'];
+            $id = $data['id'];
+            $role = $data['role'];
+            $this->session->set_userdata('nama', $nama);
+            $this->session->set_userdata('username', $username);
+            $this->session->set_userdata('id', $id);
+            $this->session->set_userdata('role', $role);
+            $this->session->set_userdata('lokasi_pabrik', $lokasi_pabrik);
+            $this->session->set_userdata('lokasi_checkpoint', $lokasi_checkpoint);
+            $this->session->set_userdata('login', TRUE);
+            if ($role == 'Super Admin') {
+                redirect('C_truk/landingpage');
+            } elseif ($role == 'Admin') {
+                redirect('C_truk/landingpage');
+            } elseif ($role == 'Barcoding') {
+                redirect('C_scan');
+            } elseif ($role == 'Inputan') {
+                redirect('C_scan');
             }
         } else {
-            //gaada user dengan email itu
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-            Email tidak terdaftar
-            </div>');
-            redirect('C_auth/index');
+            $this->session->set_flashdata('gagal_login', 'Username / Password salah !');
+            redirect('C_auth');
         }
     }
 
-    //register mini admin
+
+    //register operator yang barcode dan inputan
     public function registerminiadmin()
     {
         //form validasi by code igniter
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
 
-        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[user.email]', [
-            'is_unique' => 'Email ini sudah pernah dipakai untuk registrasi'
-        ]);
+        $this->form_validation->set_rules(
+            'username',
+            'Username',
+            'trim|required|is_unique[user.username]',
+            array(
+                'is_unique' => 'Username sudah terdaftar'
+            )
+        );
 
         $this->form_validation->set_rules('password1', 'Password', 'required|trim|matches[password2]', [
             'matches' => 'Password tidak sama'
@@ -104,12 +101,21 @@ class C_auth extends CI_Controller
             $this->load->view('templates/auth_footer');
         } else {
             //kalau berhasil
+            $role = '';
+            if ($this->input->post('lokasi_checkpoint') == 'cp3' || $this->input->post('lokasi_checkpoint') == 'cp5') {
+                $role = 'Inputan';
+            } else {
+                $role = 'Barcoding';
+            }
+
             $data = [
                 'nama' => htmlspecialchars($this->input->post('nama', true)),
-                'email' => htmlspecialchars($this->input->post('email', true)),
-                'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                'role_id' => 3,
-                'date_created' => time()
+                'username' => htmlspecialchars($this->input->post('username', true)),
+                'password' => md5($this->input->post('password1', true)),
+                'role' => $role,
+                'date_created' => time(),
+                'lokasi_pabrik' => htmlspecialchars($this->input->post('lokasi_pabrik', true)),
+                'lokasi_checkpoint' => htmlspecialchars($this->input->post('lokasi_checkpoint', true))
             ];
 
             //insert ke database
@@ -123,15 +129,20 @@ class C_auth extends CI_Controller
         }
     }
 
-    //register mini admin 2 atau operator truck scale
+    //INI UDH GA GUNA, KARENA SUDAH ADA OTOMATISASI
     public function registerminiadmin2()
     {
         //form validasi by code igniter
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
 
-        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[user.email]', [
-            'is_unique' => 'Email ini sudah pernah dipakai untuk registrasi'
-        ]);
+        $this->form_validation->set_rules(
+            'username',
+            'Username',
+            'trim|required|is_unique[user.username]',
+            array(
+                'is_unique' => 'Username sudah terdaftar'
+            )
+        );
 
         $this->form_validation->set_rules('password1', 'Password', 'required|trim|matches[password2]', [
             'matches' => 'Password tidak sama'
@@ -149,9 +160,9 @@ class C_auth extends CI_Controller
             //kalau berhasil
             $data = [
                 'nama' => htmlspecialchars($this->input->post('nama', true)),
-                'email' => htmlspecialchars($this->input->post('email', true)),
-                'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                'role_id' => 4,
+                'username' => htmlspecialchars($this->input->post('username', true)),
+                'password' => md5($this->input->post('password1', true)),
+                'role' => 'Inputan',
                 'date_created' => time()
             ];
 
@@ -171,9 +182,14 @@ class C_auth extends CI_Controller
         //form validasi by code igniter
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
 
-        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[user.email]', [
-            'is_unique' => 'Email ini sudah pernah dipakai untuk registrasi'
-        ]);
+        $this->form_validation->set_rules(
+            'username',
+            'Username',
+            'trim|required|is_unique[user.username]',
+            array(
+                'is_unique' => 'Username sudah terdaftar'
+            )
+        );
 
         $this->form_validation->set_rules('password1', 'Password', 'required|trim|matches[password2]', [
             'matches' => 'Password tidak sama'
@@ -191,9 +207,9 @@ class C_auth extends CI_Controller
             //kalau berhasil
             $data = [
                 'nama' => htmlspecialchars($this->input->post('nama', true)),
-                'email' => htmlspecialchars($this->input->post('email', true)),
-                'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                'role_id' => 2,
+                'username' => htmlspecialchars($this->input->post('username', true)),
+                'password' => md5($this->input->post('password1', true)),
+                'role' => 'Admin',
                 'date_created' => time()
             ];
 
@@ -213,9 +229,15 @@ class C_auth extends CI_Controller
         //form validasi by code igniter
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
 
-        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[user.email]', [
-            'is_unique' => 'Email ini sudah pernah dipakai untuk registrasi'
-        ]);
+        $this->form_validation->set_rules(
+            'username',
+            'Username',
+            //[nama tabel.field]
+            'trim|required|is_unique[user.username]',
+            array(
+                'is_unique' => 'Username sudah terdaftar'
+            )
+        );
 
         $this->form_validation->set_rules('password1', 'Password', 'required|trim|matches[password2]', [
             'matches' => 'Password tidak sama'
@@ -233,9 +255,9 @@ class C_auth extends CI_Controller
             //kalau berhasil
             $data = [
                 'nama' => htmlspecialchars($this->input->post('nama', true)),
-                'email' => htmlspecialchars($this->input->post('email', true)),
-                'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                'role_id' => 1,
+                'username' => htmlspecialchars($this->input->post('username', true)),
+                'password' => md5($this->input->post('password1', true)),
+                'role' => 'Super Admin',
                 'date_created' => time()
             ];
 
@@ -253,8 +275,8 @@ class C_auth extends CI_Controller
     public function logout()
     {
         //bersihkan session dan kembalikan ke halaman login
-        $this->session->unset_userdata('email');
-        $this->session->unset_userdata('role_id');
+        $this->session->sess_destroy();
+        redirect('C_auth');
 
         //pindah ke halaman landingpage
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
@@ -265,7 +287,7 @@ class C_auth extends CI_Controller
 
     public function gantipassword()
     {
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('user', ['id' => $this->session->userdata('id')])->row_array();
 
         $this->form_validation->set_rules('passwordLama', 'Password Lama', 'required|trim');
 
@@ -281,34 +303,40 @@ class C_auth extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             //cek password lama apakah sama dengan yang di database
-            $passwordLama = $this->input->post('passwordLama');
-            $passwordBaru1 = $this->input->post('passwordBaru1');
-            if (!password_verify($passwordLama, $data['user']['password'])) {
+            $passwordLama = md5($this->input->post('passwordLama'));
+            $passwordBaru1 = md5($this->input->post('passwordBaru1'));
+            if ($passwordLama != $data['user']['password']) {
                 //kalau password lama gasama dgn dengan db
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 Password lama Anda Salah!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 </div>');
                 redirect('C_auth/gantipassword');
             } else {
                 //kalau password nya benar
                 //cek dulu password baru sama tidak dengan password lama
                 if ($passwordLama == $passwordBaru1) {
-                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                     Password baru tidak boleh sama dengan password lama!
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     </div>');
                     redirect('C_auth/gantipassword');
                 } else {
                     //password sudah oke
-                    $password_hash = password_hash($passwordBaru1, PASSWORD_DEFAULT);
+                    $password_hash = md5($this->input->post('passwordBaru1', true));
 
                     $this->db->set('password', $password_hash);
-                    $this->db->where('email', $this->session->userdata('email'));
+                    $this->db->where('username', $this->session->userdata('username'));
                     $this->db->update('user');
 
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
                     Password Berhasil diganti!
                     </div>');
-                    redirect('C_auth/gantipassword');
+                    redirect('C_auth');
                 }
             }
         }
@@ -342,7 +370,7 @@ class C_auth extends CI_Controller
         $judul['page_title'] = 'Kelola Akun';
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
 
-        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'required');
 
         //kalau gagal
@@ -355,12 +383,15 @@ class C_auth extends CI_Controller
             //kalau berhasil
             $id = htmlspecialchars($this->input->post('id'));
             $nama = htmlspecialchars($this->input->post('nama'));
-            $email = htmlspecialchars($this->input->post('email'));
-            $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+            $username = htmlspecialchars($this->input->post('username'));
+            $password = md5($this->input->post('password', true));
 
-            $this->M_truk->update_akun_data($id, $nama, $email, $password);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            $this->M_truk->update_akun_data($id, $nama, $username, $password);
+            $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
             Data Akun ini berhasil diperbarui !
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+            </button>
             </div>');
             redirect('C_auth/kelolaakun');
         }

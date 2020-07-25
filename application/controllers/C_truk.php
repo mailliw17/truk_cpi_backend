@@ -8,7 +8,9 @@ class C_truk extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		is_logged_in();
+		if ($this->session->userdata('login') != true) {
+			redirect('C_auth');
+		}
 		$this->load->library('pagination');
 		$this->load->model('M_truk');
 	}
@@ -18,46 +20,46 @@ class C_truk extends CI_Controller
 		$this->load->model('M_truk');
 
 		//konfigurasi pagination
-		$config['base_url'] = site_url('C_truk/data_truk'); //site url
-		$config['total_rows'] = $this->db->count_all('tb_registrasitruk');
-		$config['per_page'] = 10;
-		$config["uri_segment"] = 3;
-		$choice = $config["total_rows"] / $config["per_page"];
-		$config["num_links"] = floor($choice);
+		// $config['base_url'] = site_url('C_truk/data_truk'); 
+		// $config['total_rows'] = $this->db->count_all('tb_registrasitruk');
+		// $config['per_page'] = 10;
+		// $config["uri_segment"] = 3;
+		// $choice = $config["total_rows"] / $config["per_page"];
+		// $config["num_links"] = floor($choice);
 
 		//pagination style bootsrap
-		$config['first_link'] = 'First';
-		$config['last_link'] = 'Last';
-		$config['next_link'] = 'Next';
-		$config['prev_link'] = 'Prev';
-		$config['full_tag_open'] = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-		$config['full_tag_close']   = '</ul></nav></div>';
-		$config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-		$config['num_tag_close']    = '</span></li>';
-		$config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-		$config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
-		$config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-		$config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-		$config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-		$config['prev_tagl_close']  = '</span>Next</li>';
-		$config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-		$config['first_tagl_close'] = '</span></li>';
-		$config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
-		$config['last_tagl_close']  = '</span></li>';
+		// $config['first_link'] = 'First';
+		// $config['last_link'] = 'Last';
+		// $config['next_link'] = 'Next';
+		// $config['prev_link'] = 'Prev';
+		// $config['full_tag_open'] = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+		// $config['full_tag_close']   = '</ul></nav></div>';
+		// $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+		// $config['num_tag_close']    = '</span></li>';
+		// $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+		// $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+		// $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+		// $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+		// $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+		// $config['prev_tagl_close']  = '</span>Next</li>';
+		// $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+		// $config['first_tagl_close'] = '</span></li>';
+		// $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+		// $config['last_tagl_close']  = '</span></li>';
 
-		$this->pagination->initialize($config);
-		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		// $this->pagination->initialize($config);
+		// $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
 		//panggil fungsi  tampil_data_pagination pada model
-		$data['data'] = $this->M_truk->tampil_data_pagination($config["per_page"], $data['page']);
+		$data['data'] = $this->M_truk->tampil_data();
 
-		$data['pagination'] = $this->pagination->create_links();
+		// $data['pagination'] = $this->pagination->create_links();
 
 		//load view
 		$judul['page_title'] = 'Data Truk';
 		$this->load->view('templates/header', $judul);
 		$this->load->view('templates/sidebar');
-		$this->load->view('V_pagination', $data);
+		$this->load->view('V_data_truk', $data);
 		$this->load->view('templates/footer');
 	}
 
@@ -76,45 +78,45 @@ class C_truk extends CI_Controller
 		$this->load->model('M_truk');
 
 		//konfigurasi pagination
-		$config['base_url'] = site_url('C_truk/tracking'); //site url
-		$config['total_rows'] = $this->db->count_all('tb_registrasitruk');
-		$config['per_page'] = 10;
-		$config["uri_segment"] = 3;
-		$choice = $config["total_rows"] / $config["per_page"];
-		$config["num_links"] = floor($choice);
+		// $config['base_url'] = site_url('C_truk/tracking');
+		// $config['total_rows'] = $this->db->count_all('tb_registrasitruk'); 
+		// $config['per_page'] = 10;
+		// $config["uri_segment"] = 3;
+		// $choice = $config["total_rows"] / $config["per_page"];
+		// $config["num_links"] = floor($choice);
 
 		//pagination style bootsrap
-		$config['first_link'] = 'First';
-		$config['last_link'] = 'Last';
-		$config['next_link'] = 'Next';
-		$config['prev_link'] = 'Prev';
-		$config['full_tag_open'] = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-		$config['full_tag_close']   = '</ul></nav></div>';
-		$config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-		$config['num_tag_close']    = '</span></li>';
-		$config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-		$config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
-		$config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-		$config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-		$config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-		$config['prev_tagl_close']  = '</span>Next</li>';
-		$config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-		$config['first_tagl_close'] = '</span></li>';
-		$config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
-		$config['last_tagl_close']  = '</span></li>';
+		// $config['first_link'] = 'First';
+		// $config['last_link'] = 'Last';
+		// $config['next_link'] = 'Next';
+		// $config['prev_link'] = 'Prev';
+		// $config['full_tag_open'] = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+		// $config['full_tag_close']   = '</ul></nav></div>';
+		// $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+		// $config['num_tag_close']    = '</span></li>';
+		// $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+		// $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+		// $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+		// $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+		// $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+		// $config['prev_tagl_close']  = '</span>Next</li>';
+		// $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+		// $config['first_tagl_close'] = '</span></li>';
+		// $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+		// $config['last_tagl_close']  = '</span></li>';
 
-		$this->pagination->initialize($config);
-		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		// $this->pagination->initialize($config);
+		// $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
 		//panggil fungsi  tampil_data_pagination pada model
-		$data['data'] = $this->M_truk->tampil_data_pagination($config["per_page"], $data['page']);
+		$data['data'] = $this->M_truk->tampil_data();
 
-		$data['pagination'] = $this->pagination->create_links();
+		// $data['pagination'] = $this->pagination->create_links();
 
 		$judul['page_title'] = 'Tracking Truk';
 		$this->load->view('templates/header', $judul);
 		$this->load->view('templates/sidebar');
-		$this->load->view('V_tracking2', $data);
+		$this->load->view('V_tracking', $data);
 		$this->load->view('templates/footer');
 	}
 
@@ -313,24 +315,24 @@ class C_truk extends CI_Controller
 				$keyword = $this->input->get('keyword');
 				$tanggal_awal = $this->input->get('tanggal_awal');
 				$tanggal_akhir = $this->input->get('tanggal_akhir');
-				$truk = $this->db->query("SELECT * FROM tb_timestamp WHERE (plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%') AND cp1 BETWEEN '$tanggal_awal' AND '$tanggal_akhir' ORDER BY plat_nomor DESC ")->result_array();
+				$truk = $this->db->query("SELECT * FROM tb_history WHERE (plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%') AND cp1 BETWEEN '$tanggal_awal' AND (DATE_ADD('$tanggal_akhir', INTERVAL 1 DAY)) ORDER BY plat_nomor DESC ")->result_array();
 			} else {
 				$keyword = $this->input->get('keyword');
 				$tanggal_awal = NULL;
 				$tanggal_akhir = NULL;
-				$truk = $this->db->query("SELECT * FROM tb_timestamp WHERE plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%' ORDER BY plat_nomor DESC ")->result_array();
+				$truk = $this->db->query("SELECT * FROM tb_history WHERE plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%' ORDER BY plat_nomor DESC ")->result_array();
 			}
 		} else { //keyword nya NULL
 			$keyword = NULL;
 			$tanggal_awal = $this->input->get('tanggal_awal');
 			$tanggal_akhir = $this->input->get('tanggal_akhir');
-			$truk = $this->db->query("SELECT * FROM tb_timestamp WHERE cp1 BETWEEN '$tanggal_awal' AND '$tanggal_akhir' ORDER BY plat_nomor DESC ")->result_array();
+			$truk = $this->db->query("SELECT * FROM tb_history WHERE cp1 BETWEEN '$tanggal_awal' AND (DATE_ADD('$tanggal_akhir', INTERVAL 1 DAY)) ORDER BY plat_nomor DESC ")->result_array();
 		}
 		if ($this->input->get('tanggal_awal') == NULL && $this->input->get('tanggal_akhir') == NULL && $this->input->get('keyword') == NULL) {
 			$keyword = NULL;
 			$tanggal_awal = NULL;
 			$tanggal_akhir = NULL;
-			$truk = $this->db->query("SELECT * FROM tb_timestamp ORDER BY plat_nomor ASC")->result_array();
+			$truk = $this->db->query("SELECT * FROM tb_history ORDER BY plat_nomor ASC")->result_array();
 		}
 
 		$data['truk'] = $truk;
@@ -347,26 +349,26 @@ class C_truk extends CI_Controller
 				$keyword = $this->input->get('keyword');
 				$tanggal_awal = $this->input->get('tanggal_awal');
 				$tanggal_akhir = $this->input->get('tanggal_akhir');
-				$this->db->query("DELETE FROM tb_timestamp WHERE (plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%') AND cp1 BETWEEN '$tanggal_awal' AND '$tanggal_akhir'");
+				$this->db->query("DELETE FROM tb_history WHERE (plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%' OR lokasi_pabrik LIKE '%$keyword%') AND cp1 BETWEEN '$tanggal_awal' AND (DATE_ADD('$tanggal_akhir', INTERVAL 1 DAY))");
 			} else {
 				//Kalau keyword ADA dan tanggal NULL
 				$keyword = $this->input->get('keyword');
 				$tanggal_awal = NULL;
 				$tanggal_akhir = NULL;
-				$this->db->query("DELETE FROM tb_timestamp WHERE plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%'");
+				$this->db->query("DELETE FROM tb_history WHERE plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%' OR lokasi_pabrik LIKE '%$keyword%'");
 			}
 		} else { //keyword nya NULL dan tanggal ADA
 			$keyword = NULL;
 			$tanggal_awal = $this->input->get('tanggal_awal');
 			$tanggal_akhir = $this->input->get('tanggal_akhir');
-			$this->db->query("DELETE FROM tb_timestamp WHERE cp1 BETWEEN '$tanggal_awal' AND '$tanggal_akhir'");
+			$this->db->query("DELETE FROM tb_history WHERE cp1 BETWEEN '$tanggal_awal' AND (DATE_ADD('$tanggal_akhir', INTERVAL 1 DAY))");
 		}
 		if ($this->input->get('tanggal_awal') == NULL && $this->input->get('tanggal_akhir') == NULL && $this->input->get('keyword') == NULL) {
 			//keyword NULL dan tanggal NULL
 			$keyword = NULL;
 			$tanggal_awal = NULL;
 			$tanggal_akhir = NULL;
-			$this->db->query("SELECT * FROM tb_timestamp ORDER BY plat_nomor,cp1 DESC ");
+			$this->db->query("DELETE FROM tb_history");
 		}
 
 		// $data['truk'] = $truk;
@@ -376,7 +378,7 @@ class C_truk extends CI_Controller
 
 	public function role()
 	{
-		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
 		//load tampilannya
 		$judul['page_title'] = 'Kelola Akun';
@@ -386,6 +388,7 @@ class C_truk extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
+	//ini ga kepake karena udh ga pilih CP lagi
 	public function masukdata($id)
 	{
 		$this->load->model('M_truk');
@@ -448,10 +451,11 @@ class C_truk extends CI_Controller
 			$cp5 = $data['data_truk']['cp5'];
 			$cp6 = $data['data_truk']['cp6'];
 			$cp_selesai = $data['data_truk']['cp_selesai'];
-			$this->db->query("INSERT INTO tb_timestamp(id_truk, plat_nomor, jenis_rute, cp1, cp2, cp3, cp4, cp5, cp6, cp_selesai) VALUES('$id_truk', '$plat_nomor', '$jenis_rute', '$cp1', '$cp2', '$cp3', '$cp4', '$cp5','$cp6', '$cp_selesai' ) ");
+			$this->db->query("INSERT INTO tb_history(id_truk, plat_nomor, jenis_rute, cp1, cp2, cp3, cp4, cp5, cp6, cp_selesai) VALUES('$id_truk', '$plat_nomor', '$jenis_rute', '$cp1', '$cp2', '$cp3', '$cp4', '$cp5','$cp6', '$cp_selesai' ) ");
 		}
 		redirect('C_scan/formselesai');
 	}
+	//ini ga kepake karena udh ga pilih CP lagi
 
 	public function masukdatamanual($p)
 	{
@@ -515,68 +519,142 @@ class C_truk extends CI_Controller
 			$cp5 = $data['data_truk']['cp5'];
 			$cp6 = $data['data_truk']['cp6'];
 			$cp_selesai = $data['data_truk']['cp_selesai'];
-			$this->db->query("INSERT INTO tb_timestamp(id_truk, plat_nomor, jenis_rute, cp1, cp2, cp3, cp4, cp5, cp6, cp_selesai) VALUES('$id_truk', '$plat_nomor', '$jenis_rute', '$cp1', '$cp2', '$cp3', '$cp4', '$cp5','$cp6', '$cp_selesai' ) ");
+			$this->db->query("INSERT INTO tb_history(id_truk, plat_nomor, jenis_rute, cp1, cp2, cp3, cp4, cp5, cp6, cp_selesai) VALUES('$id_truk', '$plat_nomor', '$jenis_rute', '$cp1', '$cp2', '$cp3', '$cp4', '$cp5','$cp6', '$cp_selesai' ) ");
 		}
 		redirect('C_scan/formselesai');
 	}
 
-	public function checkpoint_cp1()
+	public function checkpoint_cp1_km08()
 	{
-		$judul['page_title'] = 'Checkpoint Pelabuhan / Gudang KM.13';
-		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp1' ORDER BY waktu_last DESC")->result();
+		$judul['page_title'] = 'Security IN - Genuk';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp1' AND lokasi_pabrik ='Genuk / KM.08' ORDER BY waktu_last DESC")->result();
+		// $this->session->set_userdata('lokasi_pabrik', $lokasi_pabrik);
 		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km08');
 		$this->load->view('templates/sidebar');
-		$this->load->view('V_checkpoint_cp1', $data);
+		$this->load->view('V_checkpoint_cp1_km08', $data);
 		$this->load->view('templates/footer');
 	}
 
-	public function checkpoint_cp2()
+	public function checkpoint_cp2_km08()
 	{
-		$judul['page_title'] = 'Checkpoint Parkiran Pabrik';
-		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp2' ORDER BY waktu_last DESC")->result();
+		$judul['page_title'] = 'Sampling Shelter - Genuk';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp2' AND lokasi_pabrik ='Genuk / KM.08' ORDER BY waktu_last DESC")->result();
 		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km08');
 		$this->load->view('templates/sidebar');
-		$this->load->view('V_checkpoint_cp2', $data);
+		$this->load->view('V_checkpoint_cp2_km08', $data);
 		$this->load->view('templates/footer');
 	}
 
-	public function checkpoint_cp3()
+	public function checkpoint_cp3_km08()
 	{
-		$judul['page_title'] = 'Checkpoint Sampling Center';
-		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp3' ORDER BY waktu_last DESC ")->result();
+		$judul['page_title'] = 'Truck Scale IN - Genuk';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp3' AND lokasi_pabrik ='Genuk / KM.08' ORDER BY waktu_last DESC ")->result();
 		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km08');
 		$this->load->view('templates/sidebar');
-		$this->load->view('V_checkpoint_cp3', $data);
+		$this->load->view('V_checkpoint_cp3_km08', $data);
 		$this->load->view('templates/footer');
 	}
 
-	public function checkpoint_cp4()
+	public function checkpoint_cp4_km08()
 	{
-		$judul['page_title'] = 'Checkpoint Truck Scale 1';
-		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp4' ORDER BY waktu_last DESC")->result();
+		$judul['page_title'] = 'Proses Bongkar / Silo Dryer - Genuk';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp4' AND lokasi_pabrik ='Genuk / KM.08' ORDER BY waktu_last DESC")->result();
 		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km08');
 		$this->load->view('templates/sidebar');
-		$this->load->view('V_checkpoint_cp4', $data);
+		$this->load->view('V_checkpoint_cp4_km08', $data);
 		$this->load->view('templates/footer');
 	}
 
-	public function checkpoint_cp5()
+	public function checkpoint_cp5_km08()
 	{
-		$judul['page_title'] = 'Checkpoint Proses Bongkar';
-		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp5' ORDER BY waktu_last DESC")->result();
+		$judul['page_title'] = 'Truck Scale OUT - Genuk';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp5' AND lokasi_pabrik ='Genuk / KM.08' ORDER BY waktu_last DESC")->result();
 		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km08');
 		$this->load->view('templates/sidebar');
-		$this->load->view('V_checkpoint_cp5', $data);
+		$this->load->view('V_checkpoint_cp5_km08', $data);
 		$this->load->view('templates/footer');
 	}
 
-	public function checkpoint_cp6()
+	public function checkpoint_cp6_km08()
 	{
-		$judul['page_title'] = 'Checkpoint Truck Scale 2';
-		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp6' ORDER BY waktu_last DESC")->result();
+		$judul['page_title'] = 'Security OUT - Genuk';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp6' AND lokasi_pabrik ='Genuk / KM.08' ORDER BY waktu_last DESC")->result();
 		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km08');
 		$this->load->view('templates/sidebar');
-		$this->load->view('V_checkpoint_cp6', $data);
+		$this->load->view('V_checkpoint_cp6_km08', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function checkpoint_cp1_km09()
+	{
+		$judul['page_title'] = 'Security IN - Sayung';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp1' AND lokasi_pabrik ='Sayung / KM.09' ORDER BY waktu_last DESC")->result();
+		// $this->session->set_userdata('lokasi_pabrik', $lokasi_pabrik);
+		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km09');
+		$this->load->view('templates/sidebar');
+		$this->load->view('V_checkpoint_cp1_km09', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function checkpoint_cp2_km09()
+	{
+		$judul['page_title'] = 'Sampling Shelter - Sayung';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp2' AND lokasi_pabrik ='Sayung / KM.09' ORDER BY waktu_last DESC")->result();
+		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km09');
+		$this->load->view('templates/sidebar');
+		$this->load->view('V_checkpoint_cp2_km09', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function checkpoint_cp3_km09()
+	{
+		$judul['page_title'] = 'Truck Scale IN - Sayung';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp3' AND lokasi_pabrik ='Sayung / KM.09' ORDER BY waktu_last DESC ")->result();
+		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km09');
+		$this->load->view('templates/sidebar');
+		$this->load->view('V_checkpoint_cp3_km09', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function checkpoint_cp4_km09()
+	{
+		$judul['page_title'] = 'Proses Bongkar / Silo Dryer - Sayung';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp4' AND lokasi_pabrik ='Sayung / KM.09' ORDER BY waktu_last DESC")->result();
+		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km09');
+		$this->load->view('templates/sidebar');
+		$this->load->view('V_checkpoint_cp4_km09', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function checkpoint_cp5_km09()
+	{
+		$judul['page_title'] = 'Truck Scale OUT - Sayung';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp5' AND lokasi_pabrik ='Sayung / KM.09' ORDER BY waktu_last DESC")->result();
+		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km09');
+		$this->load->view('templates/sidebar');
+		$this->load->view('V_checkpoint_cp5_km09', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function checkpoint_cp6_km09()
+	{
+		$judul['page_title'] = 'Security OUT - Sayung';
+		$data['truk'] = $this->db->query("SELECT * FROM tb_max WHERE checkpoint_last ='cp6' AND lokasi_pabrik ='Sayung / KM.09' ORDER BY waktu_last DESC")->result();
+		$this->load->view('templates/header', $judul);
+		$this->load->view('templates/header_pantauan_cp_km09');
+		$this->load->view('templates/sidebar');
+		$this->load->view('V_checkpoint_cp6_km09', $data);
 		$this->load->view('templates/footer');
 	}
 }

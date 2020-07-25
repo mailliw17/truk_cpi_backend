@@ -1,16 +1,34 @@
-<!DOCTYPE html>
-<html>
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>404 Error Page</h1>
+				</div>
 
-<head>
-	<title>403 Forbidden</title>
-</head>
+			</div>
+		</div><!-- /.container-fluid -->
+	</section>
 
-<body>
+	<!-- Main content -->
+	<section class="content">
+		<div class="error-page">
+			<h1 class="headline text-warning"> 404</h1>
 
-	<h1>Maaf, Plat nomor sudah terdaftar</h1>
+			<div class="error-content">
+				<h2><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Plat nomor sudah terdaftar !</h2>
 
-	<a href="<?= base_url('C_truk/data_truk') ?>">Kembali ke sistem</a>
+				<h3>
+					Silahkan input plat dengan benar! <br>
+					<a href="<?= base_url('C_truk/data_truk') ?>" style="text-decoration:underline ;">Kembali ke sistem</a>
 
-</body>
+				</h3>
 
-</html>
+			</div>
+			<!-- /.error-content -->
+		</div>
+		<!-- /.error-page -->
+	</section>
+	<!-- /.content -->
+</div>

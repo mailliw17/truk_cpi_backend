@@ -31,9 +31,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="text" class="form-control" readonly id="email" placeholder="Masukan Email..." name="email" value="<?php echo $us->email ?>">
-                                <?= form_error('email', ' <small class="text-danger pl-3">', '</small>');  ?>
+                                <label for="email">Username</label>
+                                <input type="text" class="form-control" readonly id="username" placeholder="Masukan username..." name="username" value="<?php echo $us->username ?>">
+                                <?= form_error('username', ' <small class="text-danger pl-3">', '</small>');  ?>
                             </div>
 
                             <div class="form-group">

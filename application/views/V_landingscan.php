@@ -29,6 +29,11 @@
 </head>
 
 <body>
+    <?php if ($this->session->flashdata('berhasil')) : ?>
+        <audio controls autoplay hidden>
+            <source src="<?= base_url() ?>assets/berhasil.mp3" type="audio/mpeg">
+        </audio>
+    <?php endif; ?>
     <!--==========================
   Header
   ============================-->
@@ -47,16 +52,37 @@
             <h1>Selamat Datang "<?= $this->session->userdata('nama'); ?>" ! </h1>
             <h2>Sistem Scanner Barcode Truk</h2>
 
+            <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                <div class="card-header">Informasi Lokasi:</div>
+                <div class="card-body">
+                    <h5 class="card-title">PABRIK : <?= $this->session->userdata('lokasi_pabrik'); ?></h5>
+                    <h5 class="card-text">LOKASI : <?php if ($this->session->userdata('lokasi_checkpoint') == 'cp1') {
+                                                        echo "Security IN";
+                                                    } elseif ($this->session->userdata('lokasi_checkpoint') == 'cp2') {
+                                                        echo "Sampling Shelter";
+                                                    } elseif ($this->session->userdata('lokasi_checkpoint') == 'cp3') {
+                                                        echo "Truck Scale IN";
+                                                    } elseif ($this->session->userdata('lokasi_checkpoint') == 'cp4') {
+                                                        echo "Proses Bongkar / Silo Dryer";
+                                                    } elseif ($this->session->userdata('lokasi_checkpoint') == 'cp5') {
+                                                        echo "Truck Scale OUT";
+                                                    } elseif ($this->session->userdata('lokasi_checkpoint') == 'cp6') {
+                                                        echo "Security OUT";
+                                                    }
+                                                    ?></h5>
+                </div>
+            </div>
+
             <!-- INI FLASHMESSAGE -->
             <?= $this->session->flashdata('message');  ?>
 
             <h2>PT. Charoen Pokphand Indonesia</h2>
 
-            <?php if ($this->session->userdata('role_id') == '3') : ?>
+            <?php if ($this->session->userdata('role') == 'Barcoding') : ?>
                 <a href="<?= base_url('C_scan/scan') ?>" class="btn-get-started"><i class="fas fa-qrcode"></i> BARCODING</a>
             <?php endif; ?>
 
-            <?php if ($this->session->userdata('role_id') == '4') : ?>
+            <?php if ($this->session->userdata('role') == 'Inputan') : ?>
                 <a href="<?= base_url('C_scan/scanmanual') ?>" class="btn-get-started"><i class="fas fa-keyboard"></i> Input Plat Nomor</a>
             <?php endif; ?>
 

@@ -4,10 +4,11 @@ class M_truk extends CI_Model
 {
     public function get_user_data()
     {
-        $this->db->where('role_id', 3);
-        $this->db->or_where('role_id', 4);
+        $this->db->where('role', 'Barcoding');
+        $this->db->or_where('role', 'Inputan');
         return $this->db->get('user');
     }
+
 
     public function tampil_data()
     {
@@ -15,11 +16,11 @@ class M_truk extends CI_Model
         return $this->db->get('tb_registrasitruk');
     }
 
-    public function tampil_data_pagination($limit, $start)
-    {
-        $query = $this->db->get('tb_registrasitruk', $limit, $start);
-        return $query;
-    }
+    // public function tampil_data()
+    // {
+    //     $query = $this->db->get('tb_registrasitruk');
+    //     return $query;
+    // }
 
     public function input_data($data)
     {
@@ -42,9 +43,9 @@ class M_truk extends CI_Model
         $this->db->query("UPDATE tb_registrasitruk SET plat_nomor='$plat_nomor', jenis_truk='$jenis_truk' WHERE id_truk='$id_truk'");
     }
 
-    public function update_akun_data($id, $nama, $email, $password)
+    public function update_akun_data($id, $nama, $username, $password)
     {
-        $this->db->query("UPDATE user SET nama='$nama', email='$email', password='$password' WHERE id='$id'");
+        $this->db->query("UPDATE user SET nama='$nama', username='$username', password='$password' WHERE id='$id'");
     }
 
     public function get_keyword_tracking($keyword)
@@ -77,11 +78,11 @@ class M_truk extends CI_Model
 
     public function riwayat_truk($id_truk)
     {
-        // $query = $this->db->get_where('tb_timestamp', array('id_truk' => $id_truk))->result();
-        // $query = $this->db->query("SELECT * FROM `tb_timestamp` ORDER BY cp1 DESC WHERE id_truk = '$id_truk'")->result();
+        // $query = $this->db->get_where('tb_history', array('id_truk' => $id_truk))->result();
+        // $query = $this->db->query("SELECT * FROM `tb_history` ORDER BY cp1 DESC WHERE id_truk = '$id_truk'")->result();
         $query = $this->db->order_by('cp1 DESC');
-        $query = $this->db->limit('30');
-        $query = $this->db->get_where('tb_timestamp', ['id_truk' => $id_truk])->result();
+        // $query = $this->db->limit('30');
+        $query = $this->db->get_where('tb_history', ['id_truk' => $id_truk])->result();
         return $query;
     }
 
@@ -107,8 +108,8 @@ class M_truk extends CI_Model
 
     public function print_excel()
     {
-        $this->db->query('SELECT * FROM tb_timestamp DESC LIMIT 5');
-        // $this->db->from('tb_timestamp');
+        $this->db->query('SELECT * FROM tb_history DESC LIMIT 5');
+        // $this->db->from('tb_history');
 
         return $this->db->get();
     }
@@ -119,20 +120,20 @@ class M_truk extends CI_Model
         if ($keyword) {
             //keyword ADA dan tanggal ADA
             if (($tanggal_awal) && ($tanggal_akhir)) {
-                return $this->db->query("SELECT * FROM tb_timestamp WHERE (plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%') AND cp1 BETWEEN '$tanggal_awal' AND '$tanggal_akhir' ORDER BY cp1 DESC")->result_array();
+                return $this->db->query("SELECT * FROM tb_history WHERE (plat_nomor LIKE '%$keyword%' OR lokasi_pabrik LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%') AND cp1 BETWEEN '$tanggal_awal' AND (DATE_ADD('$tanggal_akhir', INTERVAL 1 DAY)) ORDER BY cp1 DESC")->result_array();
             } else {
                 //keyword ADA dan tanggal NULL
-                return $this->db->query("SELECT * FROM tb_timestamp WHERE plat_nomor LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%' ORDER BY cp1 DESC")->result_array();
+                return $this->db->query("SELECT * FROM tb_history WHERE plat_nomor LIKE '%$keyword%' OR  lokasi_pabrik LIKE '%$keyword%' OR jenis_rute LIKE '%$keyword%' ORDER BY cp1 DESC")->result_array();
             }
         } else {
             //keyword NULL dan tanggal NULL
             $this->db->select('*');
-            $this->db->from('tb_timestamp');
+            $this->db->from('tb_history');
 
             if (!($keyword)) {
                 //keyword NULL dan tanggal ADA
                 if (($tanggal_awal) && ($tanggal_akhir)) {
-                    $this->db->where("cp1 BETWEEN '$tanggal_awal' AND '$tanggal_akhir'");
+                    $this->db->where("cp1 BETWEEN '$tanggal_awal' AND (DATE_ADD('$tanggal_akhir', INTERVAL 1 DAY))");
                 }
             }
             $this->db->order_by('cp1', 'DESC');
@@ -155,7 +156,7 @@ class M_truk extends CI_Model
         // }
         // //kalau kosongan
         // $this->db->order_by('cp1', 'DESC');
-        // return $this->db->get('tb_timestamp')->result_array();
+        // return $this->db->get('tb_history')->result_array();
     }
 
     public function kelolauser_data()

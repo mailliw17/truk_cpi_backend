@@ -2,7 +2,7 @@
     <section class="content">
         <h4> <strong>Detail Data Truk</strong> </h4>
 
-        <table class="table">
+        <table class="table table-responsive">
             <tr>
                 <th>ID Truk</th>
                 <td><?= $detail->id_truk  ?></td>
@@ -24,42 +24,46 @@
             </tr>
 
             <tr>
-                <th style="color: red">WAKTU CHECKPOINT</th>
+                <th style="color: red">LOKASI PABRIK SAAT INI : <?php if ($detail->lokasi_pabrik == '') {
+                                                                    echo 'Sedang Tidak Aktif';
+                                                                } else {
+                                                                    echo $detail->lokasi_pabrik;
+                                                                } ?></th>
+                <!-- <td style="color: red"></td> -->
             </tr>
 
             <tr>
-                <th>Pelabuhan / Gudang KM.08&13</th>
+                <th>Security IN</th>
                 <td><?= $detail->cp1  ?></td>
             </tr>
 
             <tr>
-                <th>Parkiran Pabrik</th>
+                <th>Sampling Shelter</th>
                 <td><?= $detail->cp2  ?></td>
             </tr>
 
             <tr>
-                <th>Sampling shelter</th>
+                <th>Truck Scale IN</th>
                 <td><?= $detail->cp3  ?></td>
             </tr>
 
             <tr>
-                <th>Truck Scale IN</th>
+                <th>Proses bongkar / Silo Dryer</th>
                 <td><?= $detail->cp4  ?></td>
             </tr>
 
             <tr>
-                <th>Proses bongkar / Silo Dryer</th>
+                <th>Truck Scale OUT</th>
                 <td><?= $detail->cp5  ?></td>
             </tr>
 
             <tr>
-                <th>Truck Scale OUT</th>
+                <th>Security OUT</th>
                 <td><?= $detail->cp6  ?></td>
             </tr>
-
         </table>
         <!-- TOMBOL INI GESER KE KANAN -->
-        <div class="float-right">
+        <div style="margin-left: 350px;">
             <a href="<?= base_url('C_truk/tracking') ?>" class="btn btn-primary">Kembali</a>
         </div>
     </section>

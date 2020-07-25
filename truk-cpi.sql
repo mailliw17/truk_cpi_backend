@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2020 at 10:13 AM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- Waktu pembuatan: 25 Jul 2020 pada 17.29
+-- Versi server: 10.4.11-MariaDB
+-- Versi PHP: 7.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,45 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_max`
+-- Struktur dari tabel `tb_history`
+--
+
+CREATE TABLE `tb_history` (
+  `id_truk` int(11) NOT NULL,
+  `plat_nomor` varchar(30) NOT NULL,
+  `jenis_rute` varchar(30) NOT NULL,
+  `lokasi_pabrik` enum('Genuk / KM.08','Sayung / KM.09') NOT NULL,
+  `cp1` datetime DEFAULT NULL,
+  `cp2` datetime DEFAULT NULL,
+  `cp3` datetime DEFAULT NULL,
+  `cp4` datetime DEFAULT NULL,
+  `cp5` datetime DEFAULT NULL,
+  `cp6` datetime DEFAULT NULL,
+  `untuk_delete` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tb_history`
+--
+
+INSERT INTO `tb_history` (`id_truk`, `plat_nomor`, `jenis_rute`, `lokasi_pabrik`, `cp1`, `cp2`, `cp3`, `cp4`, `cp5`, `cp6`, `untuk_delete`) VALUES
+(93, 'Khusus km.09', 'Langsir', 'Genuk / KM.08', '2020-07-25 22:17:06', '0000-00-00 00:00:00', '2020-07-25 22:17:58', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-07-25 22:18:35', 6),
+(93, 'Khusus km.09', 'Langsir', 'Sayung / KM.09', '2020-07-25 22:19:35', '0000-00-00 00:00:00', '2020-07-25 22:20:51', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-07-25 22:21:27', 7);
+
+--
+-- Trigger `tb_history`
+--
+DELIMITER $$
+CREATE TRIGGER `hapus_perjalanan_now` AFTER INSERT ON `tb_history` FOR EACH ROW BEGIN
+	UPDATE tb_registrasitruk SET lokasi_pabrik = NULL, cp1 = NULL, cp2 = NULL, cp3 = NULL, cp4 = NULL, cp5 = NULL, cp6 = NULL, waktu_last = NULL, checkpoint_last = NULL WHERE id_truk = NEW.id_truk;
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_max`
 --
 
 CREATE TABLE `tb_max` (
@@ -33,26 +71,24 @@ CREATE TABLE `tb_max` (
   `plat_nomor` varchar(30) NOT NULL,
   `jenis_truk` varchar(30) NOT NULL,
   `jenis_rute` varchar(30) DEFAULT NULL,
+  `lokasi_pabrik` enum('Genuk / KM.08','Sayung / KM.09') DEFAULT NULL,
   `waktu_last` datetime DEFAULT NULL,
-  `checkpoint_last` varchar(30) DEFAULT NULL,
-  `untuk_delete` int(11) NOT NULL
+  `checkpoint_last` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tb_max`
+-- Dumping data untuk tabel `tb_max`
 --
 
-INSERT INTO `tb_max` (`id_truk`, `plat_nomor`, `jenis_truk`, `jenis_rute`, `waktu_last`, `checkpoint_last`, `untuk_delete`) VALUES
-(69, 'B sdfgd', 'kwkw', 'SBM', NULL, NULL, 42),
-(70, 'B 1234 PF', 'Langsir', 'SBM', NULL, '', 43),
-(71, 'H 6567 OP', 'Langsir', 'Langsir', NULL, NULL, 44),
-(72, 'kucing', 'kwkwkwkw', 'SBM', '2020-04-24 10:27:40', 'cp1', 45),
-(73, 'B 4578 KL', 'Dump truck', 'SBM', NULL, '', 46);
+INSERT INTO `tb_max` (`id_truk`, `plat_nomor`, `jenis_truk`, `jenis_rute`, `lokasi_pabrik`, `waktu_last`, `checkpoint_last`) VALUES
+(76, 'B 2121 OO', 'Langsir', 'SBM', NULL, NULL, NULL),
+(93, 'Khusus km.09', 'kwkwkw', 'Langsir', NULL, NULL, NULL),
+(94, '123', 'FGFDG', 'SBM', 'Genuk / KM.08', '2020-07-25 22:26:30', 'cp3');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_registrasitruk`
+-- Struktur dari tabel `tb_registrasitruk`
 --
 
 CREATE TABLE `tb_registrasitruk` (
@@ -60,78 +96,45 @@ CREATE TABLE `tb_registrasitruk` (
   `plat_nomor` varchar(30) NOT NULL,
   `jenis_truk` varchar(50) NOT NULL,
   `jenis_rute` varchar(30) NOT NULL,
+  `lokasi_pabrik` enum('Genuk / KM.08','Sayung / KM.09') DEFAULT NULL,
   `cp1` datetime DEFAULT NULL,
   `cp2` datetime DEFAULT NULL,
   `cp3` datetime DEFAULT NULL,
   `cp4` datetime DEFAULT NULL,
   `cp5` datetime DEFAULT NULL,
   `cp6` datetime DEFAULT NULL,
-  `cp_selesai` datetime DEFAULT NULL,
   `waktu_last` datetime DEFAULT NULL,
   `checkpoint_last` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tb_registrasitruk`
+-- Dumping data untuk tabel `tb_registrasitruk`
 --
 
-INSERT INTO `tb_registrasitruk` (`id_truk`, `plat_nomor`, `jenis_truk`, `jenis_rute`, `cp1`, `cp2`, `cp3`, `cp4`, `cp5`, `cp6`, `cp_selesai`, `waktu_last`, `checkpoint_last`) VALUES
-(70, 'B 1234 PF', 'Langsir', 'SBM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
-(71, 'H 6567 OP', 'Langsir', 'Langsir', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(73, 'B 4578 KL', 'Dump truck', 'SBM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '');
+INSERT INTO `tb_registrasitruk` (`id_truk`, `plat_nomor`, `jenis_truk`, `jenis_rute`, `lokasi_pabrik`, `cp1`, `cp2`, `cp3`, `cp4`, `cp5`, `cp6`, `waktu_last`, `checkpoint_last`) VALUES
+(76, 'B 2121 OO', 'Langsir', 'SBM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(93, 'Khusus km.09', 'kwkwkw', 'Langsir', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(94, '123', 'FGFDG', 'SBM', 'Genuk / KM.08', NULL, NULL, '2020-07-25 22:26:30', NULL, NULL, NULL, '2020-07-25 22:26:30', 'cp3');
 
 --
--- Triggers `tb_registrasitruk`
+-- Trigger `tb_registrasitruk`
 --
 DELIMITER $$
-CREATE TRIGGER `tambah_tb_max` AFTER INSERT ON `tb_registrasitruk` FOR EACH ROW BEGIN
-INSERT INTO tb_max (id_truk, plat_nomor, jenis_truk, jenis_rute, waktu_last, checkpoint_last) VALUES (NEW.id_truk, NEW.plat_nomor, NEW.jenis_truk, NEW.jenis_rute, NULL, NULL);
+CREATE TRIGGER `delete_truk` AFTER DELETE ON `tb_registrasitruk` FOR EACH ROW BEGIN
+DELETE FROM tb_max WHERE tb_max.id_truk = OLD.id_truk;
 END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `update_tb_max` AFTER UPDATE ON `tb_registrasitruk` FOR EACH ROW BEGIN
-	UPDATE tb_max SET waktu_last = new.waktu_last, checkpoint_last = NEW.checkpoint_last, jenis_rute = NEW.jenis_rute WHERE id_truk = NEW.id_truk;
-
+CREATE TRIGGER `tambah_truk_baru` AFTER INSERT ON `tb_registrasitruk` FOR EACH ROW BEGIN
+INSERT INTO tb_max (id_truk, plat_nomor, jenis_truk, jenis_rute, lokasi_pabrik, waktu_last, checkpoint_last) VALUES (NEW.id_truk, NEW.plat_nomor, NEW.jenis_truk, NEW.jenis_rute, NULL, NULL, NULL);
 END
 $$
 DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_timestamp`
---
-
-CREATE TABLE `tb_timestamp` (
-  `id_truk` int(11) NOT NULL,
-  `plat_nomor` varchar(30) NOT NULL,
-  `jenis_rute` varchar(30) DEFAULT NULL,
-  `cp1` datetime DEFAULT NULL,
-  `cp2` datetime DEFAULT NULL,
-  `cp3` datetime DEFAULT NULL,
-  `cp4` datetime DEFAULT NULL,
-  `cp5` datetime DEFAULT NULL,
-  `cp6` datetime DEFAULT NULL,
-  `cp_selesai` datetime DEFAULT NULL,
-  `untuk_delete` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tb_timestamp`
---
-
-INSERT INTO `tb_timestamp` (`id_truk`, `plat_nomor`, `jenis_rute`, `cp1`, `cp2`, `cp3`, `cp4`, `cp5`, `cp6`, `cp_selesai`, `untuk_delete`) VALUES
-(70, 'B 1234 PF', 'SBM', '2020-04-23 21:13:54', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-04-23 21:16:54', '0000-00-00 00:00:00', '2020-04-23 21:27:56', 47),
-(70, 'B 1234 PF', 'SBM', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-04-24 10:05:15', '0000-00-00 00:00:00', '2020-04-24 10:08:06', 48),
-(73, 'B 4578 KL', 'SBM', '2020-04-29 11:44:21', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-04-29 11:50:03', '2020-04-29 11:50:50', 49);
-
---
--- Triggers `tb_timestamp`
---
 DELIMITER $$
-CREATE TRIGGER `update_tb_registrasitruk` AFTER INSERT ON `tb_timestamp` FOR EACH ROW BEGIN
-	UPDATE tb_registrasitruk SET cp1 = NULL, cp2 = NULL, cp3 = NULL, cp4 = NULL, cp5 = NULL, cp6 = NULL, cp_selesai = NULL, waktu_last = NULL WHERE id_truk = NEW.id_truk;
+CREATE TRIGGER `update_checkpoint` AFTER UPDATE ON `tb_registrasitruk` FOR EACH ROW BEGIN
+	UPDATE tb_max SET waktu_last = new.waktu_last, checkpoint_last = NEW.checkpoint_last, jenis_rute = NEW.jenis_rute, lokasi_pabrik = NEW.lokasi_pabrik WHERE id_truk = NEW.id_truk;
+
 END
 $$
 DELIMITER ;
@@ -139,33 +142,48 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `nama` varchar(128) NOT NULL,
+  `username` varchar(256) NOT NULL,
   `email` varchar(128) NOT NULL,
   `password` varchar(256) NOT NULL,
   `role_id` int(11) NOT NULL,
-  `date_created` int(11) NOT NULL
+  `date_created` int(11) NOT NULL,
+  `role` enum('Super Admin','Admin','Barcoding','Inputan','') NOT NULL,
+  `lokasi_pabrik` varchar(256) NOT NULL,
+  `lokasi_checkpoint` varchar(256) NOT NULL COMMENT 'cp1:security IN, cp2: sampling, cp3: ts IN, cp4: proses bongkar/silo, cp5:ts OUT, cp6: security OUT'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`id`, `nama`, `email`, `password`, `role_id`, `date_created`) VALUES
-(13, 'admin', 'admin@gmail.com', '$2y$10$MPniDD870QBwajMVHi9CZOVca8jvP4GXTv87tOxGzAhmYO2hmRvm6', 2, 1580701136),
-(14, 'mini admin', 'miniadmin@gmail.com', '$2y$10$3/KU6k2aP6jW3aPWFfzgVONycJhB.whtWYfkr8p4MdVBhJNU6rGra', 3, 1580701180),
-(22, 'Super Admin', 'superadmin@gmail.com', '$2y$10$OfGomp.YwzzFoCuTyEYbOOY/ey7NZ/WKzZKIjK5V2L7G.xUzofnHW', 1, 1581392269),
-(25, 'William', 'william@gmail.com', '$2y$10$ts3tAOAIYfruR0Py5W6Z3.moMxk6SssEGqYHwO7YUTwFBNj5Qnq22', 1, 1581475691),
-(29, 'Truck Scale', 'truckscale@gmail.com', '$2y$10$n63ahR49XNVqFrRhUjbdIe0/gZWE6wg/FopDlfi4J.zRRrqxllPHm', 4, 1581497488);
+INSERT INTO `user` (`id`, `nama`, `username`, `email`, `password`, `role_id`, `date_created`, `role`, `lokasi_pabrik`, `lokasi_checkpoint`) VALUES
+(13, 'admin', 'admin', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 2, 1580701136, 'Admin', '', ''),
+(22, 'Super Admin', 'superadmin', 'superadmin@gmail.com', '17c4520f6cfd1ab53d8745e84681eb49', 1, 1581392269, 'Super Admin', '', ''),
+(25, 'William', 'wil', 'william@gmail.com', 'e39622164d485c2dc8970f518b0189cd', 1, 1581475691, 'Super Admin', '', ''),
+(51, 'Operator Barcode', 'barcoding', '', '0aea9b8b2d26d4fe9a33cf2bca7795d6', 0, 1595400202, 'Barcoding', 'Genuk / KM.08', 'cp1'),
+(52, 'Truck Scale', 'truckscale', '', 'ceb2b0a114d859426fe5129a1a2c7d9e', 0, 1595400224, 'Inputan', 'Genuk / KM.08', 'cp3'),
+(63, 'cp5', 'cp5', '', '202cb962ac59075b964b07152d234b70', 0, 1595495219, 'Inputan', 'Genuk / KM.08', 'cp5'),
+(64, 'cp4', 'cp4', '', '202cb962ac59075b964b07152d234b70', 0, 1595495259, 'Barcoding', 'Genuk / KM.08', 'cp4'),
+(65, 'cp6', 'cp6', '', '202cb962ac59075b964b07152d234b70', 0, 1595495340, 'Barcoding', 'Genuk / KM.08', 'cp6'),
+(66, 'cp1', 'cp1', '', '202cb962ac59075b964b07152d234b70', 0, 1595556773, 'Barcoding', 'Genuk / KM.08', 'cp1'),
+(67, 'cp2', 'cp2', '', '202cb962ac59075b964b07152d234b70', 0, 1595556803, 'Barcoding', 'Genuk / KM.08', 'cp2'),
+(68, 'cp3', 'cp3', '', '202cb962ac59075b964b07152d234b70', 0, 1595556844, 'Inputan', 'Genuk / KM.08', 'cp3'),
+(69, '1cp', '1cp', '', '202cb962ac59075b964b07152d234b70', 0, 1595559225, 'Barcoding', 'Sayung / KM.09', 'cp1'),
+(70, '2cp', '2cp', '', '202cb962ac59075b964b07152d234b70', 0, 1595559240, 'Barcoding', 'Sayung / KM.09', 'cp2'),
+(71, '6cp', '6cp', '', '202cb962ac59075b964b07152d234b70', 0, 1595559256, 'Barcoding', 'Sayung / KM.09', 'cp6'),
+(72, '3cp', '3cp', '', '202cb962ac59075b964b07152d234b70', 0, 1595560352, 'Inputan', 'Sayung / KM.09', 'cp3'),
+(73, '5cp', '5cp', '', '202cb962ac59075b964b07152d234b70', 0, 1595561818, 'Inputan', 'Sayung / KM.09', 'cp5');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_role`
+-- Struktur dari tabel `user_role`
 --
 
 CREATE TABLE `user_role` (
@@ -174,93 +192,77 @@ CREATE TABLE `user_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `user_role`
+-- Dumping data untuk tabel `user_role`
 --
 
 INSERT INTO `user_role` (`id`, `role`) VALUES
 (1, 'Super Admin'),
 (2, 'Admin'),
-(3, 'Mini Admin'),
-(4, 'Mini Admin 2');
+(3, 'Scan'),
+(4, 'Inputan');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `tb_max`
+-- Indeks untuk tabel `tb_history`
 --
-ALTER TABLE `tb_max`
+ALTER TABLE `tb_history`
   ADD PRIMARY KEY (`untuk_delete`);
 
 --
--- Indexes for table `tb_registrasitruk`
+-- Indeks untuk tabel `tb_max`
+--
+ALTER TABLE `tb_max`
+  ADD PRIMARY KEY (`id_truk`);
+
+--
+-- Indeks untuk tabel `tb_registrasitruk`
 --
 ALTER TABLE `tb_registrasitruk`
   ADD PRIMARY KEY (`id_truk`);
 
 --
--- Indexes for table `tb_timestamp`
---
-ALTER TABLE `tb_timestamp`
-  ADD PRIMARY KEY (`untuk_delete`),
-  ADD KEY `penghubung1` (`id_truk`);
-
---
--- Indexes for table `user`
+-- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indexes for table `user_role`
+-- Indeks untuk tabel `user_role`
 --
 ALTER TABLE `user_role`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `tb_max`
+-- AUTO_INCREMENT untuk tabel `tb_history`
 --
-ALTER TABLE `tb_max`
-  MODIFY `untuk_delete` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+ALTER TABLE `tb_history`
+  MODIFY `untuk_delete` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `tb_registrasitruk`
+-- AUTO_INCREMENT untuk tabel `tb_registrasitruk`
 --
 ALTER TABLE `tb_registrasitruk`
-  MODIFY `id_truk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id_truk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
--- AUTO_INCREMENT for table `tb_timestamp`
---
-ALTER TABLE `tb_timestamp`
-  MODIFY `untuk_delete` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
-
---
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
--- AUTO_INCREMENT for table `user_role`
+-- AUTO_INCREMENT untuk tabel `user_role`
 --
 ALTER TABLE `user_role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `tb_timestamp`
---
-ALTER TABLE `tb_timestamp`
-  ADD CONSTRAINT `penghubung1` FOREIGN KEY (`id_truk`) REFERENCES `tb_registrasitruk` (`id_truk`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

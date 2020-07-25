@@ -30,7 +30,7 @@
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">Plat Nomor</label>
                                         <p style="color: red"> <small>*Contoh Format : B 1234 PO</small> </p>
-                                        <input type="text" class="form-control" id="plat_nomor" name="plat_nomor" value="" autocomplete="off">
+                                        <input type="text" class="form-control" id="plat_nomor" name="plat_nomor" value="" autocomplete="off" required>
                                     </div>
 
                                     <!-- BELUM BISA KEMBALI KE LANDINGSCAN DENGAN FLASHMESSAGE -->
