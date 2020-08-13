@@ -33,12 +33,13 @@
 
 		scanner.addListener('scan', function(content) {
 
-			window.location = "https://localhost/truk_cpi_backend/C_scan/formscan/" + content;
+			// window.location = " https://localhost/truk_cpi_backend/C_scan/formscan/" + content;
+			window.location = "<?= base_url() ?>C_scan/formscan/" + content;
 		});
 		Instascan.Camera.getCameras().then(cameras => {
 			if (cameras.length > 0) {
 				//sengaja diubah ke 1 agar bisa akses kamera belakang... kalau di browser memang error
-				scanner.start(cameras[1]);
+				scanner.start(cameras[0]);
 			} else {
 				console.error("Camera dan barcode error!");
 			}

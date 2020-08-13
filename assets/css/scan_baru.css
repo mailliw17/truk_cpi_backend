@@ -1,0 +1,59 @@
+button{
+	background : none;
+	border: 1px solid #338033;
+	font-size: 18px;
+	border-radius: 4px;
+	transition: .6s;
+	overflow: hidden;
+	vertical-align: middle;
+}
+button:before{
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgb(255,255,255);
+    width: 60px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: .5;
+    filter: blur(30px);
+    transform: translateX(-130px) skewX(-15deg);
+}
+button:focus{
+	outline: none;
+}
+button:after{
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgb(255,255,255);
+    width: 30px;
+    height: 100%;
+    left: 30px;
+    top: 0;
+    opacity: 0;
+    filter: blur(30px);
+    transform: translateX(-100px) scaleX(-15deg);
+}
+
+button:hover{
+  background-color: red;
+  cursor: pointer;
+}
+button:hover:before {
+   transform: translateX(300px) skewX(-15deg);
+    opacity: .6;
+    transition: .7s;
+}
+
+button:hover:after {
+   transform: translateX(300px) skewX(-15deg);
+    opacity: 1;
+    transition: .7s;
+}
+
+body{
+    background-image: url(../pure-mix/images/1.jpg);
+    background-size: cover;
+}

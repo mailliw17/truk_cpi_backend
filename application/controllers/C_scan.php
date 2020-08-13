@@ -20,7 +20,7 @@ class C_scan extends CI_Controller
 
     public function scan()
     {
-        $this->load->view('V_scan');
+        $this->load->view('V_scan_baru');
     }
 
     public function scanmanual()
@@ -77,8 +77,9 @@ class C_scan extends CI_Controller
     }
 
     //UNTUK BARCODING == SUDAH AUTOMATISASI TANPA INPUT
-    public function formscan($id_truk)
+    public function formscan()
     {
+        $id_truk = $this->input->post('id_truk');
         $this->load->model('M_truk');
         if (function_exists('date_default_timezone_set')) {
             date_default_timezone_set('Asia/Jakarta');
@@ -95,6 +96,7 @@ class C_scan extends CI_Controller
 
         $data['data_truk'] = $this->M_truk->getDataTruk($id_truk);
         if ($data['data_truk'] == 0) {
+            // $this->session->set_flashdata('eeee', $id_truk); 
             $this->session->set_flashdata('gagal', 'Gagal');
             redirect('C_scan/scan');
         } else {
