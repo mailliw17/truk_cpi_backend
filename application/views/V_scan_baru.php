@@ -6,13 +6,16 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Scan QR Code</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- <link rel="stylesheet" href="<?= base_url() ?>assets/fontawesome/css/fontawesome.css"> -->
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
-	<!-- jQuery -->
-	<!-- <script src="<?= base_url() ?>assets/plugins/jquery/jquery.min.js"></script> -->
-	<!-- Bootstrap 4 -->
-	<!-- <script src="<?= base_url() ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-	<!-- <link rel="icon" href="../assets/img/logo.png"> -->
+
+	<link rel="manifest" href="<?= base_url() ?>manifest.json">
+	<meta name="theme-color" content="#3823a4">
+
+	<!-- for IOS support -->
+	<link rel="apple-touch-icon" href="<?= base_url() ?>assets/img/cpi.png">
+	<meta name="apple-mobile-web-app-status-bar" content="#3823a4">
+
+
 
 <body>
 
@@ -67,6 +70,8 @@
 	</div>
 
 	<!-- Js Lib -->
+	<!-- PWA -->
+	<script src="<?= base_url() ?>script.js"> </script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js-cam-baru/jquery.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js-cam-baru/qrcodelib.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js-cam-baru/webcodecamjquery.js"></script>

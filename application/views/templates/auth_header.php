@@ -14,10 +14,11 @@
     </title>
 
     <link rel="manifest" href="<?= base_url() ?>manifest.json">
-
     <meta name="theme-color" content="#3823a4">
 
+    <!-- for IOS support -->
     <link rel="apple-touch-icon" href="<?= base_url() ?>assets/img/cpi.png">
+    <meta name="apple-mobile-web-app-status-bar" content="#3823a4">
 
     <link href="<?= base_url() ?>assets/img/cpi.png" rel="icon">
 

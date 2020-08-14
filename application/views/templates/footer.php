@@ -15,8 +15,7 @@
 <!-- ./wrapper -->
 
 <!-- PWA -->
-<script src="<?= base_url() ?>script.js">
-</script>
+<script src="<?= base_url() ?>script.js"></script>
 
 <!-- <script>
     function reloadThePage() {

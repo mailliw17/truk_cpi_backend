@@ -8,9 +8,12 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicons -->
-    <link href="<?= base_url() ?>assets/img/cpi.png" rel="icon">
-    <link href="<?= base_url() ?>assets/img/cpi.png" rel="apple-touch-icon">
+    <link rel="manifest" href="<?= base_url() ?>manifest.json">
+    <meta name="theme-color" content="#3823a4">
+
+    <!-- for IOS support -->
+    <link rel="apple-touch-icon" href="<?= base_url() ?>assets/img/cpi.png">
+    <meta name="apple-mobile-web-app-status-bar" content="#3823a4">
 
     <!-- Google Fonts -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet"> -->
@@ -125,6 +128,8 @@
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
     <!-- JavaScript Libraries -->
+    <!-- PWA -->
+    <script src="<?= base_url() ?>script.js"> </script>
     <script src="<?= base_url() ?>assets/lib/jquery/jquery.min.js"></script>
     <script src="<?= base_url() ?>assets/lib/jquery/jquery-migrate.min.js"></script>
     <script src="<?= base_url() ?>assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
