@@ -16,6 +16,7 @@
 
 <!-- PWA -->
 <script src="<?= base_url() ?>script.js"></script>
+<!-- <script src="<?= base_url() ?>sw.js"></script> -->
 
 <!-- <script>
     function reloadThePage() {
@@ -56,7 +57,7 @@
 
 <!-- AdminLTE App -->
 <!-- INI KEGUNAANNYA UNTUK ANIMASI SIDEBAR -->
-<script src="<?= base_url() ?>assets/dist/js/adminlte.js"></script>
+<script src="<?= base_url() ?>assets/dist/js/adminlte.min.js"></script>
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="<?= base_url() ?>assets/dist/js/pages/dashboard.js"></script> -->
@@ -95,7 +96,7 @@
 <!-- INI DARI JORDAN -->
 <!-- Script untuk input tanggal -->
 <!-- datepicker -->
-<script src="<?= base_url() ?>assets/bootstrap-datepicker.js"> </script>
+<!-- <script src="<?= base_url() ?>assets/bootstrap-datepicker.js"> </script> -->
 
 <script src="<?= base_url() ?>assets/bootstrap-datepicker.min.js"> </script>
 <script type="text/javascript">

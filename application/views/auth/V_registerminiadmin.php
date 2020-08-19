@@ -37,7 +37,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="lokasipabrik">Lokasi Pabrik</label>
-                                    <select class="form-control form-control-sm" id="exampleFormControlSelect1" id="lokasi_pabrik" name="lokasi_pabrik" required>
+                                    <select class="form-control form-control-sm" id="lokasi_pabrik" name="lokasi_pabrik" required>
                                         <option value="" selected disabled>--Silahkan Pilih--</option>
                                         <option>Genuk / KM.08</option>
                                         <option>Sayung / KM.09</option>
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="lokasicheckpoint">Lokasi Checkpoint</label>
-                                    <select class="form-control form-control-sm" id="exampleFormControlSelect1" id="lokasi_checkpoint" name="lokasi_checkpoint" required>
+                                    <select class="form-control form-control-sm" id="lokasi_checkpoint" name="lokasi_checkpoint" required>
                                         <option value="" selected disabled>--Silahkan Pilih--</option>
                                         <option value="cp1">Security IN</option>
                                         <option value="cp2">Sampling Shelter</option>

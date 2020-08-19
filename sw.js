@@ -1,56 +1,36 @@
-// var CACHE_NAME = 'barcode-static-hore4';
-// var urlsToCache = [
-// 	'./offline.html', 
-// 	'./assets/img/cpi.png',
-// 	'./assets/vendor/fontawesome-free/css/all.min.css',
-// 	'./assets/css/sb-admin-2.css',
-// 	'./assets/vendor/jquery/jquery.min.js',
-// 	'./assets/vendor/bootstrap/js/bootstrap.bundle.min.js',
-// 	'./assets/vendor/jquery-easing/jquery.easing.min.js',
-// 	'./assets/dist/css/adminlte.min.css',
-// 	'./assets/dist/js/adminlte.js',
-// 	'./assets/js/sb-admin-2.min.js',
-// 	'./assets/js/demo/jquery.dataTables.min.js',
-// 	'./assets/js/demo/dataTables.bootstrap4.min.js',
-// 	'./assets/js/demo/datatables-demo.js',
-// 	'./assets/bootstrap-datepicker.js',
-// 	'./assets/bootstrap-datepicker.min.js',
-// 	'./assets/berhasil.mp3',
-// 	'./assets/gagal.mp3',
-
-// ];
-
-const staticCacheName = 'site-static';
+const staticCacheName = 'barcoding-cache-v1';
+// const dynamicCacheName = 'site-dynamic-v1.935';
 const assets = [
-	'./offline.html',
+	'./offline/offline.html',
+	'./offline/offline.png',
 	'./assets/img/cpi.png',
 	'./assets/vendor/fontawesome-free/css/all.min.css',
-	'./assets/css/sb-admin-2.css',
+	'./assets/css/sb-admin-2.min.css',
 	'./assets/vendor/jquery/jquery.min.js',
 	'./assets/vendor/bootstrap/js/bootstrap.bundle.min.js',
 	'./assets/vendor/jquery-easing/jquery.easing.min.js',
 	'./assets/dist/css/adminlte.min.css',
-	'./assets/dist/js/adminlte.js',
+	'./assets/dist/js/adminlte.min.js',
 	'./assets/js/sb-admin-2.min.js',
 	'./assets/js/demo/jquery.dataTables.min.js',
 	'./assets/js/demo/dataTables.bootstrap4.min.js',
 	'./assets/js/demo/datatables-demo.js',
-	'./assets/bootstrap-datepicker.js',
 	'./assets/bootstrap-datepicker.min.js',
 	'./assets/berhasil.mp3',
 	'./assets/gagal.mp3',
 	'./assets/js-cam-baru/jquery.js',
 	'./assets/js-cam-baru/qrcodelib.js',
-	'./assets/js-cam-baru/webcodecamjquery.js',
+	'./assets/js-cam-baru/webcodecamjquery.min.js',
 	'./assets/lib/jquery/jquery-migrate.min.js',
 	'./assets/lib/easing/easing.min.js',
 	'./assets/lib/wow/wow.min.js',
 	'./assets/lib/waypoints/waypoints.min.js',
 	'./assets/lib/counterup/counterup.min.js',
-	'./assets/lib/superfish/hoverIntent.js',
+	'./assets/lib/superfish/hoverIntent.min.js',
 	'./assets/lib/superfish/superfish.min.js',
-	'./assets/contactform/contactform.js',
-	'./assets/js/main.js'
+	'./assets/contactform/contactform.min.js',
+	'./assets/js/main.min.js',
+	'./assets/css/bootstrap.min.css'
 ];
 
 // self.addEventListener('install', function (event) {
@@ -75,15 +55,33 @@ self.addEventListener('install', evt => {
 	);
 });
 
-//actived event
-self.addEventListener('active', evt => {
-	console.log('service worker has been activated');
-})
+//activate event
+self.addEventListener('activate', evt => {
+	// console.log('service worker has been activated');
+	evt.waitUntil(
+		caches.keys().then(keys => {
+			return Promise.all(keys
+				.filter(key => key !== staticCacheName)
+				.map(key => caches.delete(key))
+			)
+		})
+	);
+});
 
-//fetch event 
+//fetch event cache dinamis, CRUD dan scanner sudah bisa 
+self.addEventListener('fetch', evt => {
+	// console.log('fetch event', evt);
+	evt.respondWith(
+		caches.match(evt.request).then(cacheRes => {
+			return cacheRes || fetch(evt.request)
+		}).catch(() => caches.match('./offline/offline.html'))
+	);
+});
+
+//fetch cache biasa statis saja, dinamis tidak
 self.addEventListener('fetch', evt => {
 	console.log('fetch event', evt);
-})
+});
 
 // self.addEventListener('fetch', function (event) {
 // 	event.respondWith(

@@ -6,7 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Scan QR Code</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css"> -->
+	<!-- <link rel="stylesheet" href="<?= base_url() ?>assets/lib/css/bootstrap.css"> -->
 
 	<link rel="manifest" href="<?= base_url() ?>manifest.json">
 	<meta name="theme-color" content="#3823a4">
@@ -28,14 +29,14 @@
 
 	<nav class="navbar navbar-default">
 		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<!-- <span class="sr-only">Toggle navigation</span>
+			<div class="justify-content-center">
+				<!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> -->
+				<!-- <span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span> -->
-				</button>
-				<a class="navbar-brand" href="#">Sistem Pemantauan Truk</a>
+				<!-- </button> -->
+				<h3 class="navbar-brand"> <strong>Sistem Pemantauan Truk</strong></h3>
 			</div>
 		</div>
 	</nav>
@@ -45,7 +46,7 @@
 			<div class="col-md-4 col-md-offset-4">
 				<div class="panel panel-danger">
 					<div class="panel-heading">
-						<h3 class="panel-title">Arahkan Kode QR Ke Kamera!</h3>
+						<h3 class="panel-title" style="text-decoration: underline;">Arahkan Kamera ke KODEQR !</h3>
 						<?php if ($this->session->flashdata('gagal')) : ?>
 							<h3 class="panel-title">Scan Barcode <strong><?= $this->session->flashdata('gagal'); ?> ! Silahkan Coba Lagi !</strong></h3>
 
@@ -55,13 +56,14 @@
 					<!-- INI FLASHMESSAGE -->
 
 
-					<div class="panel-body text-center">
+					<div class="panel-body">
 						<canvas></canvas>
 						<hr>
-						<select></select>
+						<select style="margin-left: 50px;"></select>
 					</div>
+					<br>
 					<div class="panel-footer">
-						<center><a class="btn btn-danger" href="<?= base_url('C_scan') ?>">Kembali</a></center>
+						<center> <button><a href="<?= base_url('C_scan') ?>">Kembali</a></button> </center>
 					</div>
 				</div>
 			</div>

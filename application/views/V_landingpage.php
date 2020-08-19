@@ -26,7 +26,7 @@
     <link href="<?= base_url() ?>assets/lib/animate/animate.min.css" rel="stylesheet">
 
     <!-- Main Stylesheet File -->
-    <link href="<?= base_url() ?>assets/css/style.css" rel="stylesheet">
+    <link href="<?= base_url() ?>assets/css/style.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -119,6 +119,9 @@
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
     <!-- JavaScript Libraries -->
+    <!-- PWA -->
+    <script src="<?= base_url() ?>script.js">
+    </script>
     <script src="<?= base_url() ?>assets/lib/jquery/jquery.min.js"></script>
     <script src="<?= base_url() ?>assets/lib/jquery/jquery-migrate.min.js"></script>
     <script src="<?= base_url() ?>assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -126,14 +129,14 @@
     <script src="<?= base_url() ?>assets/lib/wow/wow.min.js"></script>
     <script src="<?= base_url() ?>assets/lib/waypoints/waypoints.min.js"></script>
     <script src="<?= base_url() ?>assets/lib/counterup/counterup.min.js"></script>
-    <script src="<?= base_url() ?>assets/lib/superfish/hoverIntent.js"></script>
+    <script src="<?= base_url() ?>assets/lib/superfish/hoverIntent.min.js"></script>
     <script src="<?= base_url() ?>assets/lib/superfish/superfish.min.js"></script>
 
     <!-- Contact Form JavaScript File -->
-    <script src="<?= base_url() ?>assets/contactform/contactform.js"></script>
+    <script src="<?= base_url() ?>assets/contactform/contactform.min.js"></script>
 
     <!-- Template Main Javascript File -->
-    <script src="<?= base_url() ?>assets/js/main.js"></script>
+    <script src="<?= base_url() ?>assets/js/main.min.js"></script>
 
 </body>
 
